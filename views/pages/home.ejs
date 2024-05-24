@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>hello world</h1>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px">
+      <% users.forEach(el => { %>
+      <div
+        style="
+          border: 2px solid black;
+          width: 300px;
+          height: auto;
+          border-radius: 8px;
+          font-family: monospace;
+          font-size: 16px;
+          text-align: center;
+          padding-bottom: 20px;
+        "
+      >
+        <h2><span style="color: black">Name:</span> <%= el.name %></h2>
+        <h2 style="color: red">
+          <span style="color: black">Last Name:</span> <%= el.lastName %>
+        </h2>
+        <h2><span style="color: black">Age:</span> <%= el.age %></h2>
+        <a href="/expenses/<%= el.id %>">See Expenses</a>
+        <button
+          onclick="deleteUser('<%= el.id %>')"
+          style="
+            background-color: black;
+            color: white;
+            width: 100px;
+            height: 40px;
+            font-size: 18px;
+            font-family: monospace;
+            cursor: pointer;
+          "
+        >
+          Delete
+        </button>
+      </div>
+      <% }) %>
+    </div>
+    <script>
+      async function deleteUser(id) {
+        const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+          method: "DELETE",
+        })
+        if (response.ok) {
+          location.reload()
+        } else {
+          console.error("Failed to delete user")
+        }
+      }
+    </script>
+  </body>
+</html>
